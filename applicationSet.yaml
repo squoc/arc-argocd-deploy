@@ -13,7 +13,7 @@ spec:
     spec:
       project: default
       source:
-        path: charts
+        path: charts/actions-runner-controller
         repoURL: https://github.com/squoc/arc-argocd-deploy
         targetRevision: HEAD
         helm:
