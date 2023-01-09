@@ -13,26 +13,15 @@ spec:
     spec:
       project: default
       source:
-        path: charts/actions-runner-controller
-        repoURL: https://github.com/squoc/arc-argocd-deploy
+        repoURL: https://actions-runner-controller.github.io/actions-runner-controller.git
         targetRevision: HEAD
         helm:
           releaseName: arc-argocd-deploy
           valueFiles:
-            - values.yaml
             - values-{{namespace}}.yaml
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: '{{namespace}}'
       syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        retry:
-          limit: 5
-          backoff:
-            duration: 5s
-            maxDuration: 3m0s
-            factor: 2
         syncOptions:
           - CreateNamespace=true
