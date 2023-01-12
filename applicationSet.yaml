@@ -23,7 +23,7 @@ spec:
           releaseName: "{{deploymentName}}"
           valueFiles:
             - values.yaml
-            - '{{path}/{{path.filename}}'
+            - '../../{{path.filename}}'
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: '{{namespace}}'
