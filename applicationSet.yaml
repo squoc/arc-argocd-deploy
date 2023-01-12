@@ -1,27 +1,35 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: arc-argocd-deploy
+  name: arc-argocd-appset
+  namespace: argocd-deploy
 spec:
   generators:
-  - list:
-      elements:
-      - namespace: customer1
+    - git:
+        repoURL: 'https://github.com/squoc/arc-argocd-deploy'
+        revision: HEAD
+        files:
+          - path: 'value-files/*.yaml'
   template:
     metadata:
-      name: '{{namespace}}-arc'
+      name: '{{namespace}}-system'
     spec:
       project: default
       source:
-        repoURL: https://actions-runner-controller.github.io/actions-runner-controller.git
+        path: 'charts/actions-runner-controller'
+        repoURL: 'https://github.com/squoc/arc-argocd-deploy'
         targetRevision: HEAD
         helm:
-          releaseName: arc-argocd-deploy
+          releaseName: "{{deploymentName}}"
           valueFiles:
-            - values-{{namespace}}.yaml
+            - values.yaml
+            - '{{filepath}}'
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: '{{namespace}}'
       syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
         syncOptions:
           - CreateNamespace=true
