@@ -1,0 +1,4 @@
+namespace: customer3
+deploymentName: one-arc-deployment-customer3
+# some other params for arc helm chart
+#
